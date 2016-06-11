@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../js/avalon.js"></script>
+    <script>
+        avalon.component('ms-list', {
+            template: '<div><ul><li  ms-for="(index ,el) in @list"><input ms-click="@test(index)" type="button" ms-attr="{value:el.t}" /></li></ul></div>'
+            , defaults: {
+                list: [],
+                t:0,
+                test:function(s){
+                    console.log(s);
+                }
+            }
+        })
+        var vm = avalon.define({
+            $id: 'test',
+            list2: [{t:1,i:1},{t:2,i:2},{t:3,i:3},{t:4,i:4},{t:5,i:5}]
+        })
+    </script>
+    <style>
+        .selected{
+            background:red;
+        }
+    </style>
+</head>
+<body ms-controller="test" >
+<!--<ms-list></ms-list>-->
+<ms-list ms-widget="{list:@list2}"></ms-list>
+</body>
+</html>

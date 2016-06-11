@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" class="library"  href="../css/tabs.css">
+    <script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="../js/avalon.js"></script>
+<script type="text/javascript">
+    avalon.component('ms-tabs', {
+        template: '<div><ul><li  ms-for="(index ,el) in @tabs"   ><p ms-click="@test(index)">{{el.name}}</p></li></ul></div>',
+        defaults: {
+            tabs: [],
+            tpl: '',
+            currentTab: 0,
+            component: '',
+            tabWidth: 0,
+            toggle: false,
+            onChangeTab: function (index) {
+                this.currentTab = index;
+                this.tpl = '<p>' + this.tabs[index].component + '</p>';
+            },
+            test:function(s){
+                console.log(s);
+            },
+            onInit: function () {
+                /*var index = this.currentTab;
+                for(var i in this.tabs){
+                    this.tabWidth += calc(this.tabs[i].name) + 6;
+                }
+
+                this.onChangeTab(index);*/
+            },
+            calcWidth: function (str) {
+                return calc(str) * 14 + "px";
+            },
+            scrol:function(direction){
+                debugger;
+                tabs = $(this.$element).find(".tabs-warp");
+                switch (direction){
+                    case 'left': tabs.scrollLeft(tabs.scrollLeft()-200); break;
+                    case 'right' :tabs.scrollLeft(tabs.scrollLeft()+(vm.config.tabWidth-tabs.scrollLeft() - this.$element.offsetWidth)<200?(vm.config.tabWidth-tabs.scrollLeft() - this.$element.offsetWidth):200);break;
+
+
+                }
+
+
+            }
+        }
+
+    })
+    var vm = avalon.define({
+        $id: 'widget',
+
+        config: {
+            tabs: [{
+                name: '标签一',
+                component: '标签一'
+            },{
+                name: '标签二',
+                component: '标签二'
+            }],
+            tabWidth: 0,
+            toggle: false,
+            currentTab:1
+        },
+        add: function (obj) {
+            this.config.tabs.push(obj);
+            this.config.tabWidth += calc(obj.name) * 14 +6 ;
+
+            if (this.config.tabWidth > this.$element.offsetWidth)
+                this.config.toggle = true;
+        },
+    });
+
+</script>
+</head>
+<body>
+<div id="box" ms-controller='widget' >
+    <ms-tabs ms-widget="@config"></ms-tabs>
+</div>
+
+<input type ="button" onClick="add()" value="add">
+</body>
+</html>

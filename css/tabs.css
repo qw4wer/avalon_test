@@ -1,0 +1,86 @@
+
+body{
+    padding: 0px;
+    margin: 0px;
+
+}
+
+#box{
+    padding: 0px;
+}
+.ms-tab *{
+    margin:0;
+    padding: 0}
+.ms-tab ul,.ms-tab li{
+    list-style: none;
+}
+.ms-tab .tabs {
+    font-size:0;
+    z-index: 10;
+    width: 5000px;
+    overflow: hidden;
+   /* display: inline-block;*/
+}
+.ms-tab .panel{
+    width: auto;
+
+    margin-top: -1px;
+    border:1px solid #5b5b5b;
+    height:100px;
+    padding: 0px;
+    background:#e6e6e6;
+}
+.tab{
+    display: inline-block;
+    font-size:14px;
+    height: 30px;
+    line-height:30px;
+    width: 80px;
+    text-align: center;
+    margin-right: 6px;
+    border:1px solid #5b5b5b;
+    cursor: pointer;
+}
+.tab.current{
+    background:#e6e6e6;
+    color: #666;
+    font-weight:800;
+    border-bottom: 1px solid #e6e6e6;
+}
+.tabs-warp{
+    overflow: hidden;
+}
+.tabs-scroller-left {
+    position: absolute;
+    left: 0px;
+
+    width: 18px;
+
+    height: 30px;
+    border: 1px solid #524b4f;
+    font-size: 1px;
+    display: none;
+    cursor: pointer;
+    background: #bfbcb9 url(images/retreat.png)  no-repeat center center;
+}
+
+.tabs-scroller-right {
+    position: absolute;
+    right: 0;
+
+    width: 18px;
+
+    height: 30px;
+    border: 1px solid #524b4f;
+    font-size: 1px;
+    display: none;
+    cursor: pointer;
+    background: #bfbcb9 url(images/advance.png)  no-repeat center center;
+
+
+}
+
+.tabs-margin{
+    margin-left: 20px;
+    margin-right: 20px;
+}
