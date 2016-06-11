@@ -11,8 +11,8 @@ var tmpl = heredoc(function () {
      <div class="ms-tab">
      <div class="tabs-scroller-left"  ms-visible="@toggle" ms-click="@scrol('left')" ></div>
      <div class="tabs-scroller-right" ms-visible="@toggle" ms-click="@scrol('right')"></div>
-     <div class="tabs-warp">
-     <ul  ms-class="['tabs',@toggle?'tabs-margin':'' ]" >
+     <div ms-class="['tabs-warp',@toggle?'tabs-margin':'' ]">
+     <ul  ms-class="['tabs']" >
      <li ms-for="($index, tab) in @tabs" ms-class="['tab', $index==@currentTab?'current':'' ]"  ms-css="{width:@calcWidth(tab.name)}" >
      <p ms-text="tab.name" ms-click="@onChangeTab($index)"></p>
      </li>
@@ -43,6 +43,9 @@ avalon.component('ms-tabs', {
             for(var i = 0 ;i< this.tabs.length ; i++){
                 this.tabWidth += (calc(this.tabs[i].name) *14 + 8);
             }
+            console.log($("li").length)
+setTimeout(function(){console.log($("li").length)},0)
+
 
             this.onChangeTab(index);
         },
@@ -57,7 +60,7 @@ avalon.component('ms-tabs', {
                 case 'right' :{
                  n =    tabs.scrollLeft();
                     if((vm.config.tabWidth- n - this.$element.offsetWidth)<200){
-                        tabs.scrollLeft(n+(vm.config.tabWidth-n - this.$element.offsetWidth));
+                        tabs.scrollLeft((vm.config.tabWidth - this.$element.offsetWidth) + 38 + 6);
                     }else{
                         tabs.scrollLeft(n+200);
                     }
@@ -72,40 +75,7 @@ avalon.component('ms-tabs', {
     }
 
 })
-var vm = avalon.define({
-    $id: 'widget',
 
-    config: {
-        tabs: [{
-            name: '标签中文测试a01',
-            component: '标签一'
-        },{
-            name: '标签中文测试a02',
-            component: '标签二'
-        }],
-        tabWidth: 0,
-        toggle: false,
-        currentTab:1
-    },
-    add: function (obj) {
-        this.config.tabs.push(obj);
-        this.config.tabWidth += calc(obj.name) * 14 +6 ;
-
-        if (this.config.tabWidth > this.$element.offsetWidth)
-            this.config.toggle = true;
-    },
-});
-
-
-function add() {
-
-    vm.add({
-        name: '标签中文测试a' + ((vm.config.tabs.length + 1) <10 ? ('0'+(vm.config.tabs.length + 1)) :(vm.config.tabs.length + 1)),
-        component: vm.config.tabs.length + 1
-    });
-
-    /*vm.add1();*/
-}
 
 function calc(str) {
     var reg = /[\u4e00-\u9fa5]/;
