@@ -11,16 +11,16 @@
 
     $(document).ready(function(){
 
-        var vm = avalon.define({
+        vm = avalon.define({
             $id: 'widget',
 
             config: {
                 tabs: [{
                     name: '标签中文测试a01',
-                    component: '标签一'
+                    component: 'http://www.baidu.com'
                 },{
                     name: '标签中文测试a02',
-                    component: '标签二'
+                    component: 'http://www.baidu.com'
                 }],
                 tabWidth: 0,
                 toggle: false,
@@ -28,7 +28,12 @@
             },
             add: function (obj) {
                 this.config.tabs.push(obj);
-                this.config.tabWidth += calc(obj.name) * 14 +6 ;
+                tabWidth = 0
+                $("li").each(function(){
+                    tabWidth += $(this).outerWidth(true);
+                });
+                this.config.tabWidth = tabWidth;
+                /*this.config.tabWidth += calc(obj.name) * 14 +6 ;*/
 
                 if (this.config.tabWidth > this.$element.offsetWidth)
                     this.config.toggle = true;
@@ -42,7 +47,7 @@
 
         vm.add({
             name: '标签中文测试a' + ((vm.config.tabs.length + 1) <10 ? ('0'+(vm.config.tabs.length + 1)) :(vm.config.tabs.length + 1)),
-            component: vm.config.tabs.length + 1
+            component:'http://www.sina.com.cn'
         });
 
         /*vm.add1();*/

@@ -13,13 +13,16 @@ var tmpl = heredoc(function () {
      <div class="tabs-scroller-right" ms-visible="@toggle" ms-click="@scrol('right')"></div>
      <div ms-class="['tabs-warp',@toggle?'tabs-margin':'' ]">
      <ul  ms-class="['tabs']" >
-     <li ms-for="($index, tab) in @tabs" ms-class="['tab', $index==@currentTab?'current':'' ]"  ms-css="{width:@calcWidth(tab.name)}" >
+     <li ms-for="($index, tab) in @tabs" ms-class="['tab', $index==@currentTab?'current':'' ]"   >
      <p ms-text="tab.name" ms-click="@onChangeTab($index)"></p>
+     <a class="tabs-close" ms-click="@onClose($index)"></a>
      </li>
      </ul>
      </div>
-     <div class="panel" ms-html="@tpl">
-     {{@toggle}}
+     <div class="tabs-panels">
+     <div ms-for="($index, tab) in @tabs" class="panel" ms-visible="$index==@currentTab">
+     <iframe style="width:100%;height:99%;" scrolling="auto" frameborder="0" ms-attr="{src:tab.component}"></iframe>
+     </div>
      </div>
      </div>
      */
@@ -34,38 +37,46 @@ avalon.component('ms-tabs', {
         tabWidth: 0,
         toggle: false,
         onChangeTab: function (index) {
-            debugger;
             this.currentTab = index;
-            this.tpl = '<p>' + this.tabs[index].component + '</p>';
+            /*this.tpl = '<p>' + this.tabs[index].component + '</p>';*/
         },
         onInit: function () {
             var index = this.currentTab;
-            for(var i = 0 ;i< this.tabs.length ; i++){
-                this.tabWidth += (calc(this.tabs[i].name) *14 + 8);
-            }
-            console.log($("li").length)
-setTimeout(function(){console.log($("li").length)},0)
-
+            /*  for (var i = 0; i < this.tabs.length; i++) {
+             this.tabWidth += (calc(this.tabs[i].name) * 14 + 8);
+             }*/
+            setTimeout(function () {
+                $("li").each(function () {
+                    this.tabWidth += $(this).outerWidth(true);
+                });
+            }, 0)
 
             this.onChangeTab(index);
         },
-        calcWidth: function (str) {
-            return calc(str) * 14 + "px";
+        onClose:function(index){
+            this.tabs.splice(index,1);
         },
-        scrol:function(direction){
+        calcWidth: function (str) {
+            return calc(str) * 14 +5 + "px";
+        },
+        scrol: function (direction) {
             debugger;
             tabs = $(this.$element).find(".tabs-warp");
-            switch (direction){
-                case 'left': tabs.scrollLeft(tabs.scrollLeft()-200); break;
-                case 'right' :{
-                 n =    tabs.scrollLeft();
-                    if((vm.config.tabWidth- n - this.$element.offsetWidth)<200){
-                        tabs.scrollLeft((vm.config.tabWidth - this.$element.offsetWidth) + 38 + 6);
-                    }else{
-                        tabs.scrollLeft(n+200);
+            switch (direction) {
+                case 'left':
+                    tabs.scrollLeft(tabs.scrollLeft() - 200);
+                break;
+                case 'right' :
+                {
+                    n = tabs.scrollLeft();
+                    if ((vm.config.tabWidth - n - this.$element.offsetWidth) < 200) {
+                        tabs.scrollLeft((vm.config.tabWidth - this.$element.offsetWidth) + parseInt($(this.$element).find('.tabs-warp').css('margin-left')) * 2);
+                    } else {
+                        tabs.scrollLeft(n + 200);
                     }
 
-                };break;
+                }
+                break;
 
 
             }
