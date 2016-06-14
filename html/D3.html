@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../js/avalon.js"></script>
+    <script>
+        avalon.component('ms-button', {
+            template: '<button type="button"><span><slot name="buttonText"></slot></span></button>',
+            defaults: {
+                buttonText: "button"//指定插入点的默认值
+            },
+            soleSlot: 'buttonText'//指定插入点的名字
+        })
+        avalon.define({
+            $id:'test',
+            aaa: "按钮"
+        })
+    </script>
+</head>
+<body>
+<div ms-controller='test'>
+    <ms-button>{{@aaa}}</ms-button>
+</div>
+</body>
+</html>

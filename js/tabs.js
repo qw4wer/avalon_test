@@ -9,19 +9,23 @@ function heredoc(fn) {
 var tmpl = heredoc(function () {
     /*
      <div class="ms-tab">
-     <div class="tabs-scroller-left"  ms-visible="@toggle" ms-click="@scrol('left')" ></div>
-     <div class="tabs-scroller-right" ms-visible="@toggle" ms-click="@scrol('right')"></div>
+     <div class="tabs-scroller-left"  ms-visible="@toggle" ms-click="@scrolTab('left')" ></div>
+     <div class="tabs-scroller-right" ms-visible="@toggle" ms-click="@scrolTab('right')"></div>
      <div ms-class="['tabs-warp',@toggle?'tabs-margin':'' ]">
      <ul  ms-class="['tabs']" >
      <li ms-for="($index, tab) in @tabs" ms-class="['tab', $index==@currentTab?'current':'' ]"   >
      <p ms-text="tab.name" ms-click="@onChangeTab($index)"></p>
-     <a class="tabs-close" ms-click="@onClose($index)"></a>
+     <a class="tabs-close" ms-click="@onClose($index)" ms-visible="$index!=0"></a>
      </li>
      </ul>
      </div>
      <div class="tabs-panels">
      <div ms-for="($index, tab) in @tabs" class="panel" ms-visible="$index==@currentTab">
-     <iframe style="width:100%;height:99%;" scrolling="auto" frameborder="0" ms-attr="{src:tab.component}"></iframe>
+        <div ms-css="{height:@calcPanelHeight()}" >
+            <iframe ms-attr="{class:'frame'+$index}">
+
+            </iframe>
+        </div>
      </div>
      </div>
      </div>
@@ -42,24 +46,29 @@ avalon.component('ms-tabs', {
         },
         onInit: function () {
             var index = this.currentTab;
-            /*  for (var i = 0; i < this.tabs.length; i++) {
-             this.tabWidth += (calc(this.tabs[i].name) * 14 + 8);
-             }*/
             setTimeout(function () {
                 $("li").each(function () {
                     this.tabWidth += $(this).outerWidth(true);
                 });
-            }, 0)
+            }, 0);
 
             this.onChangeTab(index);
         },
         onClose:function(index){
             this.tabs.splice(index,1);
+            this.onChangeTab(index-1);
         },
         calcWidth: function (str) {
             return calc(str) * 14 +5 + "px";
         },
-        scrol: function (direction) {
+        calcPanelHeight:function(){
+            //$(this.$element.parentNode).height() - ;
+
+
+
+            return 100;
+        },
+        scrolTab: function (direction) {
             debugger;
             tabs = $(this.$element).find(".tabs-warp");
             switch (direction) {
@@ -77,8 +86,6 @@ avalon.component('ms-tabs', {
 
                 }
                 break;
-
-
             }
 
 

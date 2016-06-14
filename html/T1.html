@@ -3,63 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" class="library"  href="../css/tabs.css">
+    <link rel="stylesheet" type="text/css" class="library" href="../css/tabs.css">
     <script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../js/avalon.js"></script>
     <script type="text/javascript" src="../js/tabs.js"></script>
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    $(document).ready(function(){
+        $(document).ready(function () {
 
-        vm = avalon.define({
-            $id: 'widget',
+            vm = avalon.define({
+                $id: 'widget',
 
-            config: {
-                tabs: [{
-                    name: '标签中文测试a01',
-                    component: 'http://www.baidu.com'
-                },{
-                    name: '标签中文测试a02',
-                    component: 'http://www.baidu.com'
-                }],
-                tabWidth: 0,
-                toggle: false,
-                currentTab:1
-            },
-            add: function (obj) {
-                this.config.tabs.push(obj);
-                tabWidth = 0
-                $("li").each(function(){
-                    tabWidth += $(this).outerWidth(true);
-                });
-                this.config.tabWidth = tabWidth;
-                /*this.config.tabWidth += calc(obj.name) * 14 +6 ;*/
+                config: {
+                    tabs: [{
+                        name: '标签中文测试a01',
+                        component: 'http://www.baidu.com'
+                    }, {
+                        name: '标签中文测试a02',
+                        component: 'http://www.baidu.com'
+                    }],
+                    tabWidth: 0,
+                    toggle: false,
+                    currentTab: 1
+                },
+                add: function (obj) {
+                    this.config.tabs.push(obj);
+                    tabWidth = 0
+                    $("li").each(function () {
+                        tabWidth += $(this).outerWidth(true);
+                    });
+                    this.config.tabWidth = tabWidth;
+                    /*this.config.tabWidth += calc(obj.name) * 14 +6 ;*/
 
-                if (this.config.tabWidth > this.$element.offsetWidth)
-                    this.config.toggle = true;
-            },
+                    if (this.config.tabWidth > this.$element.offsetWidth)
+                        this.config.toggle = true;
+                },
+            });
+        })
+
+
+        var panel = heredoc(function () {
+            /*
+
+             <p style="background-color: rebeccapurple">dsadsadsadasd</p>
+             <script type="text/javascript">
+             alert(10);
+             <//script>
+
+             */
         });
-    })
 
 
+        function add() {
+            vm.add({
+                name: '标签中文测试a' + ((vm.config.tabs.length + 1) < 10 ? ('0' + (vm.config.tabs.length + 1)) : (vm.config.tabs.length + 1)),
+                component: "<iframe src='D2.html'></iframe>"
+            });
+setTimeout(function(){
+    $(".frame"+vm.config.tabs.length - 1).attr("src","http://www.baidu.com");
 
-    function add() {
+},1000)
+            /*vm.add1();*/
+        }
 
-        vm.add({
-            name: '标签中文测试a' + ((vm.config.tabs.length + 1) <10 ? ('0'+(vm.config.tabs.length + 1)) :(vm.config.tabs.length + 1)),
-            component:'http://www.sina.com.cn'
-        });
-
-        /*vm.add1();*/
-    }
-
-</script>
+    </script>
 </head>
 <body>
-<div id="box" ms-controller='widget' >
-    <ms-tabs ms-widget="@config"></ms-tabs>
+<div style="height: 300px">
+    <div id="box" ms-controller='widget'>
+        <ms-tabs ms-widget="@config"></ms-tabs>
+    </div>
 </div>
-
-<input type ="button" onClick="add()" value="add">
+<input type="button" onClick="add()" value="add">
 </body>
 </html>
